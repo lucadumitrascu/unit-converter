@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/length-converter.iml" filepath="$PROJECT_DIR$/length-converter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/unit-converter.iml" filepath="$PROJECT_DIR$/unit-converter.iml" />
     </modules>
   </component>
 </project>
