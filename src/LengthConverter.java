@@ -4,19 +4,24 @@ import java.util.Scanner;
 
 public class LengthConverter implements UnitConverter {
 
-    ArrayList<String> unitList = new ArrayList<>(Arrays.asList(
-            "Kilometer (KM)",
-            "Meter (M)",
-            "Decimeter (DM)",
-            "Centimeter (CM)",
-            "Milimeter (MM)"));
+    private final ArrayList<String> unitList;
+    public LengthConverter() {
+        this.unitList = new ArrayList<>(Arrays.asList(
+                "Kilometer (KM)",
+                "Meter (M)",
+                "Decimeter (DM)",
+                "Centimeter (CM)",
+                "Milimeter (MM)"));
+    }
+    public ArrayList<String> getUnitList() {
+        return unitList;
+    }
 
     @Override
     public void run() {
         int fromUnit;
         int toUnit;
         double value;
-        int change;
         Scanner unitChanger = new Scanner(System.in);
 
         System.out.println("- - Legth converter - -");
@@ -60,88 +65,49 @@ public class LengthConverter implements UnitConverter {
         }
 
         switch (fromUnit) {
-            case "Kilometer (KM)":
+            case "Kilometer (KM)" -> {
                 switch (toUnit) {
-                    case "Meter (M)":
-                        value = value * 1000;
-                        break;
-                    case "Decimeter (DM)":
-                        value = value * 10000;
-                        break;
-                    case "Centimeter (CM)":
-                        value = value * 100000;
-                        break;
-                    case "Milimeter (MM)":
-                        value = value * 1000000;
-                        break;
+                    case "Meter (M)" -> value = value * 1000;
+                    case "Decimeter (DM)" -> value = value * 10000;
+                    case "Centimeter (CM)" -> value = value * 100000;
+                    case "Milimeter (MM)" -> value = value * 1000000;
                 }
-                break;
-            case "Meter (M)":
+            }
+            case "Meter (M)" -> {
                 switch (toUnit) {
-                    case "Kilometer (KM)":
-                        value = value / 1000;
-                        break;
-                    case "Decimeter (DM)":
-                        value = value * 10;
-                        break;
-                    case "Centimeter (CM)":
-                        value = value * 100;
-                        break;
-                    case "Milimeter (MM)":
-                        value = value * 1000;
-                        break;
+                    case "Kilometer (KM)" -> value = value / 1000;
+                    case "Decimeter (DM)" -> value = value * 10;
+                    case "Centimeter (CM)" -> value = value * 100;
+                    case "Milimeter (MM)" -> value = value * 1000;
                 }
-                break;
-            case "Decimeter (DM)":
+            }
+            case "Decimeter (DM)" -> {
                 switch (toUnit) {
-                    case "Kilometer (KM)":
-                        value = value / 10000;
-                        break;
-                    case "Meter (M)":
-                        value = value / 10;
-                        break;
-                    case "Centimeter (CM)":
-                        value = value * 10;
-                        break;
-                    case "Milimeter (MM)":
-                        value = value * 100;
-                        break;
+                    case "Kilometer (KM)" -> value = value / 10000;
+                    case "Meter (M)" -> value = value / 10;
+                    case "Centimeter (CM)" -> value = value * 10;
+                    case "Milimeter (MM)" -> value = value * 100;
                 }
-                break;
-            case "Centimeter (CM)":
+            }
+            case "Centimeter (CM)" -> {
                 switch (toUnit) {
-                    case "Kilometer (KM)":
-                        value = value / 100000;
-                        break;
-                    case "Meter (M)":
-                        value = value / 100;
-                        break;
-                    case "Decimeter (DM)":
-                        value = value / 10;
-                        break;
-                    case "Milimeter (MM)":
-                        value = value * 10;
-                        break;
+                    case "Kilometer (KM)" -> value = value / 100000;
+                    case "Meter (M)" -> value = value / 100;
+                    case "Decimeter (DM)" -> value = value / 10;
+                    case "Milimeter (MM)" -> value = value * 10;
                 }
-                break;
-            case "Milimeter (MM)":
+            }
+            case "Milimeter (MM)" -> {
                 switch (toUnit) {
-                    case "Kilometer (KM)":
-                        value = value / 1000000;
-                        break;
-                    case "Meter (M)":
-                        value = value / 1000;
-                        break;
-                    case "Decimeter (DM)":
-                        value = value / 100;
-                        break;
-                    case "Centimeter (CM)":
-                        value = value / 10;
-                        break;
+                    case "Kilometer (KM)" -> value = value / 1000000;
+                    case "Meter (M)" -> value = value / 1000;
+                    case "Decimeter (DM)" -> value = value / 100;
+                    case "Centimeter (CM)" -> value = value / 10;
                 }
-                break;
-            default:
+            }
+            default -> {
                 return value;
+            }
         }
         return value;
     }
