@@ -42,12 +42,13 @@ public class VolumeConverter implements UnitConverter {
 
         System.out.println("- - - Welcome to Volume Converter - - -");
         value = getValidDouble(userInput);
-        System.out.println("\nList of units");
-        showOptions();
-        System.out.println();
 
         do {
             programOption = 0;
+
+            System.out.println("\nList of units");
+            showOptions();
+            System.out.println();
 
             System.out.println("Select from which unit do you want to convert: ");
             System.out.print("fromUnit = ");
@@ -94,7 +95,6 @@ public class VolumeConverter implements UnitConverter {
             }
         }
         while (!close);
-        userInput.close();
     }
 
     @Override

@@ -7,22 +7,19 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class LengthConverter implements UnitConverter {
-
+public class TemperatureConverter implements UnitConverter {
     private final ArrayList<String> unitList;
     private final ArrayList<String> conversionHistory;
 
-    public LengthConverter() {
+    public TemperatureConverter() {
         this.unitList = new ArrayList<>(Arrays.asList(
-                "Kilometer (KM)",
-                "Meter (M)",
-                "Decimeter (DM)",
-                "Centimeter (CM)",
-                "Millimeter (MM)"));
+                "Celsius",
+                "Fahrenheit",
+                "Kelvin"));
         this.conversionHistory = new ArrayList<>();
     }
 
-    public ArrayList<String> getLengthConversionHistory() {
+    public ArrayList<String> getTemperatureConversionHistory() {
         return conversionHistory;
     }
 
@@ -40,7 +37,7 @@ public class LengthConverter implements UnitConverter {
         Scanner userInput = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        System.out.println("- - - Welcome to Length Converter - - -");
+        System.out.println("- - - Welcome to Temperature Converter - - -");
         value = getValidDouble(userInput);
 
         do {
@@ -77,7 +74,7 @@ public class LengthConverter implements UnitConverter {
                 System.out.printf("""
                         1. Change value
                         2. Watch history of the past conversions
-                        3. Close Length Converter
+                        3. Close Temperature Converter
                         4. Continue with the same value (value = %.1f)
                         Answer: \s""", value); // \s is white space char
 
@@ -88,7 +85,7 @@ public class LengthConverter implements UnitConverter {
                 } else if (programOption == 2) {
                     showHistory();
                 } else if (programOption == 3) {
-                    System.out.println("Thanks for using Length Converter!");
+                    System.out.println("Thanks for using Temperature Converter!");
                     close = true;
                     programOption = 4;
                 }
@@ -105,44 +102,22 @@ public class LengthConverter implements UnitConverter {
         }
 
         switch (fromUnit) {
-            case "Kilometer (KM)" -> {
+            case "Celsius" -> {
                 switch (toUnit) {
-                    case "Meter (M)" -> value = value * 1000;
-                    case "Decimeter (DM)" -> value = value * 10000;
-                    case "Centimeter (CM)" -> value = value * 100000;
-                    case "Millimeter (MM)" -> value = value * 1000000;
+                    case "Fahrenheit" -> value = ((value * 9) / 5) + 32;
+                    case "Kelvin" -> value = value + 273.15;
                 }
             }
-            case "Meter (M)" -> {
+            case "Fahrenheit" -> {
                 switch (toUnit) {
-                    case "Kilometer (KM)" -> value = value / 1000;
-                    case "Decimeter (DM)" -> value = value * 10;
-                    case "Centimeter (CM)" -> value = value * 100;
-                    case "Millimeter (MM)" -> value = value * 1000;
+                    case "Celsius" -> value = (value - (32 * 5)) / 9;
+                    case "Kelvin" -> value = (value - (32 * 5)) / 9 + 273.15;
                 }
             }
-            case "Decimeter (DM)" -> {
+            case "Kelvin" -> {
                 switch (toUnit) {
-                    case "Kilometer (KM)" -> value = value / 10000;
-                    case "Meter (M)" -> value = value / 10;
-                    case "Centimeter (CM)" -> value = value * 10;
-                    case "Millimeter (MM)" -> value = value * 100;
-                }
-            }
-            case "Centimeter (CM)" -> {
-                switch (toUnit) {
-                    case "Kilometer (KM)" -> value = value / 100000;
-                    case "Meter (M)" -> value = value / 100;
-                    case "Decimeter (DM)" -> value = value / 10;
-                    case "Millimeter (MM)" -> value = value * 10;
-                }
-            }
-            case "Millimeter (MM)" -> {
-                switch (toUnit) {
-                    case "Kilometer (KM)" -> value = value / 1000000;
-                    case "Meter (M)" -> value = value / 1000;
-                    case "Decimeter (DM)" -> value = value / 100;
-                    case "Centimeter (CM)" -> value = value / 10;
+                    case "Celsius" -> value = value - 273.15;
+                    case "Fahrenheit" -> value = (value - 273.15 * 9) / 5 + 32;
                 }
             }
             default -> {
@@ -156,10 +131,10 @@ public class LengthConverter implements UnitConverter {
     public int getValidOption(Scanner scanner) {
         int indexOfOption = getValidInt(scanner);
         // Checking if user selected an existing option
-        while (indexOfOption > 5 || indexOfOption < 1) {
+        while (indexOfOption > 3 || indexOfOption < 1) {
             System.out.println("Invalid option!");
             showOptions();
-            System.out.print("Try another (choose between 1-5): ");
+            System.out.print("Try another (choose between 1-3): ");
             indexOfOption = getValidInt(scanner);
         }
         return indexOfOption;
@@ -207,7 +182,7 @@ public class LengthConverter implements UnitConverter {
     }
 
     public void showHistory() {
-        System.out.println("History of Conversions (Length): ");
+        System.out.println("History of Conversions (Temperature): ");
         if (conversionHistory.isEmpty()) {
             System.out.println("The history is empty!");
         } else {
@@ -222,5 +197,5 @@ public class LengthConverter implements UnitConverter {
             System.out.println((i + 1) + ". " + unitList.get(i));
         }
     }
-}
 
+}

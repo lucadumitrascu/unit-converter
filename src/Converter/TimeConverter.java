@@ -7,22 +7,22 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class LengthConverter implements UnitConverter {
+public class TimeConverter implements UnitConverter {
 
     private final ArrayList<String> unitList;
     private final ArrayList<String> conversionHistory;
 
-    public LengthConverter() {
+    public TimeConverter() {
         this.unitList = new ArrayList<>(Arrays.asList(
-                "Kilometer (KM)",
-                "Meter (M)",
-                "Decimeter (DM)",
-                "Centimeter (CM)",
-                "Millimeter (MM)"));
+                "Month",
+                "Week",
+                "Day",
+                "Hour",
+                "Minute"));
         this.conversionHistory = new ArrayList<>();
     }
 
-    public ArrayList<String> getLengthConversionHistory() {
+    public ArrayList<String> getTimeConversionHistory() {
         return conversionHistory;
     }
 
@@ -40,7 +40,7 @@ public class LengthConverter implements UnitConverter {
         Scanner userInput = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        System.out.println("- - - Welcome to Length Converter - - -");
+        System.out.println("- - - Welcome to Time Converter - - -");
         value = getValidDouble(userInput);
 
         do {
@@ -77,7 +77,7 @@ public class LengthConverter implements UnitConverter {
                 System.out.printf("""
                         1. Change value
                         2. Watch history of the past conversions
-                        3. Close Length Converter
+                        3. Close Time Converter
                         4. Continue with the same value (value = %.1f)
                         Answer: \s""", value); // \s is white space char
 
@@ -88,7 +88,7 @@ public class LengthConverter implements UnitConverter {
                 } else if (programOption == 2) {
                     showHistory();
                 } else if (programOption == 3) {
-                    System.out.println("Thanks for using Length Converter!");
+                    System.out.println("Thanks for using Time Converter!");
                     close = true;
                     programOption = 4;
                 }
@@ -105,44 +105,44 @@ public class LengthConverter implements UnitConverter {
         }
 
         switch (fromUnit) {
-            case "Kilometer (KM)" -> {
+            case "Month" -> {
                 switch (toUnit) {
-                    case "Meter (M)" -> value = value * 1000;
-                    case "Decimeter (DM)" -> value = value * 10000;
-                    case "Centimeter (CM)" -> value = value * 100000;
-                    case "Millimeter (MM)" -> value = value * 1000000;
+                    case "Week" -> value = value * 4.345;
+                    case "Day" -> value = value * 30.417;
+                    case "Hour" -> value = value * 730;
+                    case "Minute" -> value = value * 43800;
                 }
             }
-            case "Meter (M)" -> {
+            case "Week" -> {
                 switch (toUnit) {
-                    case "Kilometer (KM)" -> value = value / 1000;
-                    case "Decimeter (DM)" -> value = value * 10;
-                    case "Centimeter (CM)" -> value = value * 100;
-                    case "Millimeter (MM)" -> value = value * 1000;
+                    case "Month" -> value = value / 4.345;
+                    case "Day" -> value = value * 7;
+                    case "Hour" -> value = value * 168;
+                    case "Minute" -> value = value * 10080;
                 }
             }
-            case "Decimeter (DM)" -> {
+            case "Day" -> {
                 switch (toUnit) {
-                    case "Kilometer (KM)" -> value = value / 10000;
-                    case "Meter (M)" -> value = value / 10;
-                    case "Centimeter (CM)" -> value = value * 10;
-                    case "Millimeter (MM)" -> value = value * 100;
+                    case "Month" -> value = value / 30.417;
+                    case "Week" -> value = value / 7;
+                    case "Hour" -> value = value * 24;
+                    case "Minute" -> value = value * 1440;
                 }
             }
-            case "Centimeter (CM)" -> {
+            case "Hour" -> {
                 switch (toUnit) {
-                    case "Kilometer (KM)" -> value = value / 100000;
-                    case "Meter (M)" -> value = value / 100;
-                    case "Decimeter (DM)" -> value = value / 10;
-                    case "Millimeter (MM)" -> value = value * 10;
+                    case "Month" -> value = value / 730;
+                    case "Week" -> value = value / 168;
+                    case "Day" -> value = value / 24;
+                    case "Minute" -> value = value * 60;
                 }
             }
-            case "Millimeter (MM)" -> {
+            case "Minute" -> {
                 switch (toUnit) {
-                    case "Kilometer (KM)" -> value = value / 1000000;
-                    case "Meter (M)" -> value = value / 1000;
-                    case "Decimeter (DM)" -> value = value / 100;
-                    case "Centimeter (CM)" -> value = value / 10;
+                    case "Month" -> value = value / 43800;
+                    case "Week" -> value = value / 10080;
+                    case "Day" -> value = value / 1440;
+                    case "Hour" -> value = value / 60;
                 }
             }
             default -> {
@@ -207,7 +207,7 @@ public class LengthConverter implements UnitConverter {
     }
 
     public void showHistory() {
-        System.out.println("History of Conversions (Length): ");
+        System.out.println("History of Conversions (Time): ");
         if (conversionHistory.isEmpty()) {
             System.out.println("The history is empty!");
         } else {
@@ -223,4 +223,3 @@ public class LengthConverter implements UnitConverter {
         }
     }
 }
-
