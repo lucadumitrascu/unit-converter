@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public interface UnitConverter {
-    public void run();
-
+    void run();
     double convertValue(double value, String fromUnit, String toUnit);
+    void showHistory();
 }

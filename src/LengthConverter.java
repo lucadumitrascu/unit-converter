@@ -1,3 +1,5 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
@@ -6,6 +8,7 @@ import java.util.Scanner;
 public class LengthConverter implements UnitConverter {
 
     private final ArrayList<String> unitList;
+    private final ArrayList<String> conversionHistory;
 
     public LengthConverter() {
         this.unitList = new ArrayList<>(Arrays.asList(
@@ -14,8 +17,12 @@ public class LengthConverter implements UnitConverter {
                 "Decimeter (DM)",
                 "Centimeter (CM)",
                 "Milimeter (MM)"));
+        this.conversionHistory = new ArrayList<>();
     }
 
+    public ArrayList<String> getLengthConversionHistory() {
+        return conversionHistory;
+    }
     public ArrayList<String> getUnitList() {
         return unitList;
     }
@@ -28,6 +35,7 @@ public class LengthConverter implements UnitConverter {
         boolean close = false;
         double value;
         Scanner userInput = new Scanner(System.in);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         System.out.println("- - - Welcome to Legth Converter - - -");
         value = getValidDouble(userInput);
@@ -36,6 +44,8 @@ public class LengthConverter implements UnitConverter {
         System.out.println();
 
         do {
+            programOption = 0;
+
             System.out.println("Select from which unit do you want to convert: ");
             System.out.print("fromUnit = ");
             fromUnit = getValidOption(userInput);
@@ -48,23 +58,36 @@ public class LengthConverter implements UnitConverter {
             System.out.println(value + " " + unitList.get(fromUnit - 1) + " = " +
                     convertValue(value, unitList.get(fromUnit - 1), unitList.get(toUnit - 1)) + " " +
                     unitList.get(toUnit - 1));
+
+            LocalDateTime currentDateTime = LocalDateTime.now();
+            String formattedDateTime = currentDateTime.format(formatter);
+
+            conversionHistory.add(" ["+formattedDateTime+"] -> "+value + " " + unitList.get(fromUnit - 1) + " = " +
+                    convertValue(value, unitList.get(fromUnit - 1), unitList.get(toUnit - 1)) + " " +
+                    unitList.get(toUnit - 1));
             System.out.println("----------------------RESULT----------------------");
 
-            System.out.println();
-            System.out.print("""
-                    1. Change value
-                    2. Watch history of the past conversions
-                    3. Close Length Converter
-                    4. Continue with the same value
-                    Answer: \s"""); // \s is white space char
-            programOption = getValidInt(userInput);
-            if (programOption == 1) {
-                value = getValidDouble(userInput);
-            } else if (programOption == 2) {
 
-            } else if (programOption == 3) {
-                System.out.println("Thanks for using Length Converter!");
-                close = true;
+            while(programOption != 4) {
+            System.out.println();
+            System.out.printf("""
+            1. Change value
+            2. Watch history of the past conversions
+            3. Close Length Converter
+            4. Continue with the same value (value = %.1f)
+            Answer: \s""", value); // \s is white space char
+
+                programOption = getValidInt(userInput);
+                if (programOption == 1) {
+                    value = getValidDouble(userInput);
+                    programOption = 4;
+                } else if (programOption == 2) {
+                    showHistory();
+                } else if (programOption == 3) {
+                    System.out.println("Thanks for using Length Converter!");
+                    close = true;
+                    programOption = 4;
+                }
             }
         }
         while (!close);
@@ -148,7 +171,7 @@ public class LengthConverter implements UnitConverter {
         } catch (InputMismatchException e) {
             System.out.println("Invalid input!");
             while (!isValid) {
-                System.out.print("Add a valid value: ");
+                System.out.print("Add a numeric value: ");
                 scanner.next();
                 if (scanner.hasNextInt()) {
                     indexOfOption = scanner.nextInt();
@@ -180,6 +203,12 @@ public class LengthConverter implements UnitConverter {
         return value;
     }
 
+    public void showHistory() {
+        System.out.println("History of Conversions (Length): ");
+        for (String s : conversionHistory) {
+            System.out.println(s);
+        }
+    }
     public void showOptions() {
         for (int i = 0; i < unitList.size(); i++) {
             System.out.println((i + 1) + ". " + unitList.get(i));
