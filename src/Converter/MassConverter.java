@@ -153,6 +153,7 @@ public class MassConverter implements UnitConverter {
     }
 
     // Used for IndexOutOfBoundsException when user has to choose a unit
+    @Override
     public int getValidOption(Scanner scanner) {
         int indexOfOption = getValidInt(scanner);
         // Checking if user selected an existing option
@@ -166,6 +167,7 @@ public class MassConverter implements UnitConverter {
     }
 
     // Used for getValidOption(Scanner scanner) method
+    @Override
     public int getValidInt(Scanner scanner) {
         boolean isValid = false;
         int indexOfOption = 0;
@@ -186,6 +188,7 @@ public class MassConverter implements UnitConverter {
     }
 
     // Used for forcing the user to input a correct value or renewing it
+    @Override
     public double getValidDouble(Scanner scanner) {
         double value = 0;
         boolean isNumber = false;
@@ -206,6 +209,7 @@ public class MassConverter implements UnitConverter {
         return value;
     }
 
+    @Override
     public void showHistory() {
         System.out.println("History of Conversions (Mass): ");
         if (conversionHistory.isEmpty()) {
@@ -217,6 +221,7 @@ public class MassConverter implements UnitConverter {
         }
     }
 
+    @Override
     public void showOptions() {
         for (int i = 0; i < unitList.size(); i++) {
             System.out.println((i + 1) + ". " + unitList.get(i));

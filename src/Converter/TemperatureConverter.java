@@ -128,6 +128,7 @@ public class TemperatureConverter implements UnitConverter {
     }
 
     // Used for IndexOutOfBoundsException when user has to choose a unit
+    @Override
     public int getValidOption(Scanner scanner) {
         int indexOfOption = getValidInt(scanner);
         // Checking if user selected an existing option
@@ -141,6 +142,7 @@ public class TemperatureConverter implements UnitConverter {
     }
 
     // Used for getValidOption(Scanner scanner) method
+    @Override
     public int getValidInt(Scanner scanner) {
         boolean isValid = false;
         int indexOfOption = 0;
@@ -161,6 +163,7 @@ public class TemperatureConverter implements UnitConverter {
     }
 
     // Used for forcing the user to input a correct value or renewing it
+    @Override
     public double getValidDouble(Scanner scanner) {
         double value = 0;
         boolean isNumber = false;
@@ -181,6 +184,7 @@ public class TemperatureConverter implements UnitConverter {
         return value;
     }
 
+    @Override
     public void showHistory() {
         System.out.println("History of Conversions (Temperature): ");
         if (conversionHistory.isEmpty()) {
@@ -192,6 +196,7 @@ public class TemperatureConverter implements UnitConverter {
         }
     }
 
+    @Override
     public void showOptions() {
         for (int i = 0; i < unitList.size(); i++) {
             System.out.println((i + 1) + ". " + unitList.get(i));
