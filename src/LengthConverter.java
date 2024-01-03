@@ -1,10 +1,12 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class LengthConverter implements UnitConverter {
 
     private final ArrayList<String> unitList;
+
     public LengthConverter() {
         this.unitList = new ArrayList<>(Arrays.asList(
                 "Kilometer (KM)",
@@ -13,6 +15,7 @@ public class LengthConverter implements UnitConverter {
                 "Centimeter (CM)",
                 "Milimeter (MM)"));
     }
+
     public ArrayList<String> getUnitList() {
         return unitList;
     }
@@ -21,24 +24,25 @@ public class LengthConverter implements UnitConverter {
     public void run() {
         int fromUnit;
         int toUnit;
+        int programOption;
+        boolean close = false;
         double value;
-        Scanner unitChanger = new Scanner(System.in);
+        Scanner userInput = new Scanner(System.in);
 
-        System.out.println("- - Legth converter - -");
-        System.out.println("Write a number bigger than 5 to end the program!");
-        System.out.print("Write value: ");
-        value = unitChanger.nextDouble();
+        System.out.println("- - - Welcome to Legth Converter - - -");
+        value = getValidDouble(userInput);
+        System.out.println("\nList of units");
         showOptions();
+        System.out.println();
 
         do {
-
             System.out.println("Select from which unit do you want to convert: ");
             System.out.print("fromUnit = ");
-            fromUnit = unitChanger.nextInt();
+            fromUnit = getValidOption(userInput);
 
             System.out.println("Select to which unit do you want to convert: ");
             System.out.print("toUnit = ");
-            toUnit = unitChanger.nextInt();
+            toUnit = getValidOption(userInput);
 
             System.out.println("----------------------RESULT----------------------");
             System.out.println(value + " " + unitList.get(fromUnit - 1) + " = " +
@@ -47,14 +51,24 @@ public class LengthConverter implements UnitConverter {
             System.out.println("----------------------RESULT----------------------");
 
             System.out.println();
-            System.out.print("Change value? (1/0): ");
-            if (unitChanger.nextInt() == 1) {
-                System.out.println("Write a brand new value: ");
-                value = unitChanger.nextDouble();
-            }
+            System.out.print("""
+                    1. Change value
+                    2. Watch history of the past conversions
+                    3. Close Length Converter
+                    4. Continue with the same value
+                    Answer: \s"""); // \s is white space char
+            programOption = getValidInt(userInput);
+            if (programOption == 1) {
+                value = getValidDouble(userInput);
+            } else if (programOption == 2) {
 
+            } else if (programOption == 3) {
+                System.out.println("Thanks for using Length Converter!");
+                close = true;
+            }
         }
-        while (fromUnit <= 5 || toUnit <= 5);
+        while (!close);
+        userInput.close();
     }
 
     @Override
@@ -107,6 +121,60 @@ public class LengthConverter implements UnitConverter {
             }
             default -> {
                 return value;
+            }
+        }
+        return value;
+    }
+
+    // Used for IndexOutOfBoundsException when user has to choose a unit
+    public int getValidOption(Scanner scanner) {
+        int indexOfOption = getValidInt(scanner);
+        // Checking if user selected an existing option
+        while (indexOfOption > 5 || indexOfOption < 1) {
+            System.out.println("Invalid option!");
+            showOptions();
+            System.out.print("Try another (choose between 1-5): ");
+            indexOfOption = getValidInt(scanner);
+        }
+        return indexOfOption;
+    }
+
+    // Used for getValidOption(Scanner scanner) method
+    public int getValidInt(Scanner scanner) {
+        boolean isValid = false;
+        int indexOfOption = 0;
+        try {
+            indexOfOption = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input!");
+            while (!isValid) {
+                System.out.print("Add a valid value: ");
+                scanner.next();
+                if (scanner.hasNextInt()) {
+                    indexOfOption = scanner.nextInt();
+                    isValid = true;
+                }
+            }
+        }
+        return indexOfOption;
+    }
+
+    // Used for forcing the user to input a correct value or renewing it
+    public double getValidDouble(Scanner scanner) {
+        double value = 0;
+        boolean isNumber = false;
+        try {
+            System.out.print("Write value: ");
+            value = scanner.nextDouble();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid value!");
+            while (!isNumber) {
+                System.out.print("Add a valid value: ");
+                scanner.next();
+                if (scanner.hasNextDouble()) {
+                    value = scanner.nextDouble();
+                    isNumber = true;
+                }
             }
         }
         return value;
