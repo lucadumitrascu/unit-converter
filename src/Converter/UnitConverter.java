@@ -1,3 +1,5 @@
+package Converter;
+
 import java.util.Scanner;
 
 public interface UnitConverter {

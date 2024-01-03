@@ -1,3 +1,5 @@
+package Converter;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -16,13 +18,14 @@ public class LengthConverter implements UnitConverter {
                 "Meter (M)",
                 "Decimeter (DM)",
                 "Centimeter (CM)",
-                "Milimeter (MM)"));
+                "Millimeter (MM)"));
         this.conversionHistory = new ArrayList<>();
     }
 
     public ArrayList<String> getLengthConversionHistory() {
         return conversionHistory;
     }
+
     public ArrayList<String> getUnitList() {
         return unitList;
     }
@@ -37,7 +40,7 @@ public class LengthConverter implements UnitConverter {
         Scanner userInput = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        System.out.println("- - - Welcome to Legth Converter - - -");
+        System.out.println("- - - Welcome to Length Converter - - -");
         value = getValidDouble(userInput);
         System.out.println("\nList of units");
         showOptions();
@@ -62,20 +65,20 @@ public class LengthConverter implements UnitConverter {
             LocalDateTime currentDateTime = LocalDateTime.now();
             String formattedDateTime = currentDateTime.format(formatter);
 
-            conversionHistory.add(" ["+formattedDateTime+"] -> "+value + " " + unitList.get(fromUnit - 1) + " = " +
+            conversionHistory.add(" [" + formattedDateTime + "] -> " + value + " " + unitList.get(fromUnit - 1) + " = " +
                     convertValue(value, unitList.get(fromUnit - 1), unitList.get(toUnit - 1)) + " " +
                     unitList.get(toUnit - 1));
             System.out.println("----------------------RESULT----------------------");
 
 
-            while(programOption != 4) {
-            System.out.println();
-            System.out.printf("""
-            1. Change value
-            2. Watch history of the past conversions
-            3. Close Length Converter
-            4. Continue with the same value (value = %.1f)
-            Answer: \s""", value); // \s is white space char
+            while (programOption != 4) {
+                System.out.println();
+                System.out.printf("""
+                        1. Change value
+                        2. Watch history of the past conversions
+                        3. Close Length Converter
+                        4. Continue with the same value (value = %.1f)
+                        Answer: \s""", value); // \s is white space char
 
                 programOption = getValidInt(userInput);
                 if (programOption == 1) {
@@ -107,7 +110,7 @@ public class LengthConverter implements UnitConverter {
                     case "Meter (M)" -> value = value * 1000;
                     case "Decimeter (DM)" -> value = value * 10000;
                     case "Centimeter (CM)" -> value = value * 100000;
-                    case "Milimeter (MM)" -> value = value * 1000000;
+                    case "Millimeter (MM)" -> value = value * 1000000;
                 }
             }
             case "Meter (M)" -> {
@@ -115,7 +118,7 @@ public class LengthConverter implements UnitConverter {
                     case "Kilometer (KM)" -> value = value / 1000;
                     case "Decimeter (DM)" -> value = value * 10;
                     case "Centimeter (CM)" -> value = value * 100;
-                    case "Milimeter (MM)" -> value = value * 1000;
+                    case "Millimeter (MM)" -> value = value * 1000;
                 }
             }
             case "Decimeter (DM)" -> {
@@ -123,7 +126,7 @@ public class LengthConverter implements UnitConverter {
                     case "Kilometer (KM)" -> value = value / 10000;
                     case "Meter (M)" -> value = value / 10;
                     case "Centimeter (CM)" -> value = value * 10;
-                    case "Milimeter (MM)" -> value = value * 100;
+                    case "Millimeter (MM)" -> value = value * 100;
                 }
             }
             case "Centimeter (CM)" -> {
@@ -131,10 +134,10 @@ public class LengthConverter implements UnitConverter {
                     case "Kilometer (KM)" -> value = value / 100000;
                     case "Meter (M)" -> value = value / 100;
                     case "Decimeter (DM)" -> value = value / 10;
-                    case "Milimeter (MM)" -> value = value * 10;
+                    case "Millimeter (MM)" -> value = value * 10;
                 }
             }
-            case "Milimeter (MM)" -> {
+            case "Millimeter (MM)" -> {
                 switch (toUnit) {
                     case "Kilometer (KM)" -> value = value / 1000000;
                     case "Meter (M)" -> value = value / 1000;
@@ -205,10 +208,15 @@ public class LengthConverter implements UnitConverter {
 
     public void showHistory() {
         System.out.println("History of Conversions (Length): ");
-        for (String s : conversionHistory) {
-            System.out.println(s);
+        if (conversionHistory.isEmpty()) {
+            System.out.println("The history is empty!");
+        } else {
+            for (String s : conversionHistory) {
+                System.out.println(s);
+            }
         }
     }
+
     public void showOptions() {
         for (int i = 0; i < unitList.size(); i++) {
             System.out.println((i + 1) + ". " + unitList.get(i));
