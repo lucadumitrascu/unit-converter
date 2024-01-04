@@ -151,4 +151,3 @@ public class LengthConverter extends AbstractUnitConverter {
         return value;
     }
 }
-

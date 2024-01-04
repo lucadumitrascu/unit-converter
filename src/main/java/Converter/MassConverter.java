@@ -152,4 +152,3 @@ public class MassConverter extends AbstractUnitConverter {
     }
 
 }
-
