@@ -7,10 +7,11 @@ import java.util.Scanner;
 public abstract class AbstractUnitConverter {
 
     public abstract void run();
+
     public abstract double convertValue(double value, String fromUnit, String toUnit);
 
-    public void showHistory(ArrayList<String> conversionHistory, String type) {
-        System.out.println("History of Conversions ("+type+"): ");
+    public static void showHistory(ArrayList<String> conversionHistory, String type) {
+        System.out.println("History of Conversions (" + type + "): ");
         if (conversionHistory.isEmpty()) {
             System.out.println("The history is empty!");
         } else {
@@ -21,7 +22,7 @@ public abstract class AbstractUnitConverter {
     }
 
     // Used for getValidOption(Scanner scanner) method
-    int getValidInt(Scanner scanner) {
+    public static int getValidInt(Scanner scanner) {
         boolean isValid = false;
         int indexOfOption = 0;
         try {
@@ -42,7 +43,7 @@ public abstract class AbstractUnitConverter {
 
 
     // Used for forcing the user to input a correct value or renewing it
-    double getValidDouble(Scanner scanner) {
+    protected static double getValidDouble(Scanner scanner) {
         double value = 0;
         boolean isNumber = false;
         try {
@@ -63,7 +64,7 @@ public abstract class AbstractUnitConverter {
     }
 
     // Used for IndexOutOfBoundsException when user has to choose a unit
-    int getValidOption(Scanner scanner, ArrayList<String> unitList) {
+    protected static int getValidOption(Scanner scanner, ArrayList<String> unitList) {
         int indexOfOption = getValidInt(scanner);
         // Checking if user selected an existing option
         while (indexOfOption > 5 || indexOfOption < 1) {
@@ -75,7 +76,7 @@ public abstract class AbstractUnitConverter {
         return indexOfOption;
     }
 
-    void showOptions(ArrayList<String> unitList) {
+    protected static void showOptions(ArrayList<String> unitList) {
         for (int i = 0; i < unitList.size(); i++) {
             System.out.println((i + 1) + ". " + unitList.get(i));
         }

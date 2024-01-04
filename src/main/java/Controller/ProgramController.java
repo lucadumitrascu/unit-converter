@@ -1,9 +1,7 @@
 package Controller;
 
 import Converter.*;
-
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ProgramController {
@@ -39,7 +37,7 @@ public class ProgramController {
                     7. Exit
                     Answer:\s""");
 
-            programOption = getValidInt(userInput);
+            programOption = AbstractUnitConverter.getValidInt(userInput);
             System.out.println();
 
             switch (programOption) {
@@ -63,41 +61,11 @@ public class ProgramController {
                     volumeConverter.run();
                     history.addAll(volumeConverter.getVolumeConversionHistory());
                 }
-                case 6 -> showHistory();
+                case 6 -> AbstractUnitConverter.showHistory(history, "All");
 
                 default -> System.out.println("Thank you for using Unit Converter!");
             }
 
         } while (programOption <= 6 && programOption >= 1);
-    }
-
-    public int getValidInt(Scanner scanner) {
-        boolean isValid = false;
-        int indexOfOption = 0;
-        try {
-            indexOfOption = scanner.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input!");
-            while (!isValid) {
-                System.out.print("Add a numeric value: ");
-                scanner.next();
-                if (scanner.hasNextInt()) {
-                    indexOfOption = scanner.nextInt();
-                    isValid = true;
-                }
-            }
-        }
-        return indexOfOption;
-    }
-
-    public void showHistory() {
-        System.out.println("History of Conversions (All): ");
-        if (history.isEmpty()) {
-            System.out.println("The history is empty!");
-        } else {
-            for (String s : history) {
-                System.out.println(s);
-            }
-        }
     }
 }
