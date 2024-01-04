@@ -4,25 +4,21 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class TimeConverter extends AbstractUnitConverter {
-
+public class TemperatureConverter extends AbstractUnitConverter {
     private final ArrayList<String> unitList;
     private final ArrayList<String> conversionHistory;
 
-    public TimeConverter() {
+    public TemperatureConverter() {
         this.unitList = new ArrayList<>(Arrays.asList(
-                "Month",
-                "Week",
-                "Day",
-                "Hour",
-                "Minute"));
+                "Celsius",
+                "Fahrenheit",
+                "Kelvin"));
         this.conversionHistory = new ArrayList<>();
     }
 
-    public ArrayList<String> getTimeConversionHistory() {
+    public ArrayList<String> getTemperatureConversionHistory() {
         return conversionHistory;
     }
 
@@ -40,7 +36,7 @@ public class TimeConverter extends AbstractUnitConverter {
         Scanner userInput = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        System.out.println("- - - Welcome to Time Converter - - -");
+        System.out.println("- - - Welcome to Temperature Converter - - -");
         value = getValidDouble(userInput);
 
         do {
@@ -77,7 +73,7 @@ public class TimeConverter extends AbstractUnitConverter {
                 System.out.printf("""
                         1. Change value
                         2. Watch history of the past conversions
-                        3. Close Time Converter
+                        3. Close Temperature Converter
                         4. Continue with the same value (value = %.1f)
                         Answer: \s""", value); // \s is white space char
 
@@ -86,9 +82,9 @@ public class TimeConverter extends AbstractUnitConverter {
                     value = getValidDouble(userInput);
                     programOption = 4;
                 } else if (programOption == 2) {
-                    showHistory(conversionHistory,"Time");
+                    showHistory(conversionHistory, "Temperature");
                 } else if (programOption == 3) {
-                    System.out.println("Thanks for using Time Converter!");
+                    System.out.println("Thanks for using Temperature Converter!");
                     close = true;
                     programOption = 4;
                 }
@@ -105,44 +101,22 @@ public class TimeConverter extends AbstractUnitConverter {
         }
 
         switch (fromUnit) {
-            case "Month" -> {
+            case "Celsius" -> {
                 switch (toUnit) {
-                    case "Week" -> value = value * 4.345;
-                    case "Day" -> value = value * 30.417;
-                    case "Hour" -> value = value * 730;
-                    case "Minute" -> value = value * 43800;
+                    case "Fahrenheit" -> value = ((value * 9) / 5) + 32;
+                    case "Kelvin" -> value = value + 273.15;
                 }
             }
-            case "Week" -> {
+            case "Fahrenheit" -> {
                 switch (toUnit) {
-                    case "Month" -> value = value / 4.345;
-                    case "Day" -> value = value * 7;
-                    case "Hour" -> value = value * 168;
-                    case "Minute" -> value = value * 10080;
+                    case "Celsius" -> value = (value - (32 * 5)) / 9;
+                    case "Kelvin" -> value = (value - (32 * 5)) / 9 + 273.15;
                 }
             }
-            case "Day" -> {
+            case "Kelvin" -> {
                 switch (toUnit) {
-                    case "Month" -> value = value / 30.417;
-                    case "Week" -> value = value / 7;
-                    case "Hour" -> value = value * 24;
-                    case "Minute" -> value = value * 1440;
-                }
-            }
-            case "Hour" -> {
-                switch (toUnit) {
-                    case "Month" -> value = value / 730;
-                    case "Week" -> value = value / 168;
-                    case "Day" -> value = value / 24;
-                    case "Minute" -> value = value * 60;
-                }
-            }
-            case "Minute" -> {
-                switch (toUnit) {
-                    case "Month" -> value = value / 43800;
-                    case "Week" -> value = value / 10080;
-                    case "Day" -> value = value / 1440;
-                    case "Hour" -> value = value / 60;
+                    case "Celsius" -> value = value - 273.15;
+                    case "Fahrenheit" -> value = (value - 273.15 * 9) / 5 + 32;
                 }
             }
             default -> {

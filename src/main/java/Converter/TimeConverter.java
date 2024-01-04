@@ -4,25 +4,24 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class MassConverter extends AbstractUnitConverter {
+public class TimeConverter extends AbstractUnitConverter {
 
     private final ArrayList<String> unitList;
     private final ArrayList<String> conversionHistory;
 
-    public MassConverter() {
+    public TimeConverter() {
         this.unitList = new ArrayList<>(Arrays.asList(
-                "Tonne (T)",
-                "Kilogram (KG)",
-                "Gram (G)",
-                "Milligram (MG)",
-                "Pound (£)"));
+                "Month",
+                "Week",
+                "Day",
+                "Hour",
+                "Minute"));
         this.conversionHistory = new ArrayList<>();
     }
 
-    public ArrayList<String> getMassConversionHistory() {
+    public ArrayList<String> getTimeConversionHistory() {
         return conversionHistory;
     }
 
@@ -40,7 +39,7 @@ public class MassConverter extends AbstractUnitConverter {
         Scanner userInput = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        System.out.println("- - - Welcome to Mass Converter - - -");
+        System.out.println("- - - Welcome to Time Converter - - -");
         value = getValidDouble(userInput);
 
         do {
@@ -52,11 +51,11 @@ public class MassConverter extends AbstractUnitConverter {
 
             System.out.println("Select from which unit do you want to convert: ");
             System.out.print("fromUnit = ");
-            fromUnit = getValidOption(userInput, this.unitList);
+            fromUnit = getValidOption(userInput, unitList);
 
             System.out.println("Select to which unit do you want to convert: ");
             System.out.print("toUnit = ");
-            toUnit = getValidOption(userInput, this.unitList);
+            toUnit = getValidOption(userInput, unitList);
 
             System.out.println("----------------------RESULT----------------------");
             System.out.println(value + " " + unitList.get(fromUnit - 1) + " = " +
@@ -77,7 +76,7 @@ public class MassConverter extends AbstractUnitConverter {
                 System.out.printf("""
                         1. Change value
                         2. Watch history of the past conversions
-                        3. Close Mass Converter
+                        3. Close Time Converter
                         4. Continue with the same value (value = %.1f)
                         Answer: \s""", value); // \s is white space char
 
@@ -86,9 +85,9 @@ public class MassConverter extends AbstractUnitConverter {
                     value = getValidDouble(userInput);
                     programOption = 4;
                 } else if (programOption == 2) {
-                    showHistory(conversionHistory,"Mass");
+                    showHistory(conversionHistory,"Time");
                 } else if (programOption == 3) {
-                    System.out.println("Thanks for using Mass Converter!");
+                    System.out.println("Thanks for using Time Converter!");
                     close = true;
                     programOption = 4;
                 }
@@ -105,44 +104,44 @@ public class MassConverter extends AbstractUnitConverter {
         }
 
         switch (fromUnit) {
-            case "Tonne (T)" -> {
+            case "Month" -> {
                 switch (toUnit) {
-                    case "Kilogram (KG)" -> value = value * 1000;
-                    case "Gram (G)" -> value = value * 1000000;
-                    case "Milligram (MG)" -> value = value * 1000000000;
-                    case "Pound (£)" -> value = value * 2205;
+                    case "Week" -> value = value * 4.345;
+                    case "Day" -> value = value * 30.417;
+                    case "Hour" -> value = value * 730;
+                    case "Minute" -> value = value * 43800;
                 }
             }
-            case "Kilogram (KG)" -> {
+            case "Week" -> {
                 switch (toUnit) {
-                    case "Tonne (T)" -> value = value / 1000;
-                    case "Gram (G)" -> value = value * 1000;
-                    case "Milligram (MG)" -> value = value * 1000000;
-                    case "Pound (£)" -> value = value * 2.205;
+                    case "Month" -> value = value / 4.345;
+                    case "Day" -> value = value * 7;
+                    case "Hour" -> value = value * 168;
+                    case "Minute" -> value = value * 10080;
                 }
             }
-            case "Gram (G)" -> {
+            case "Day" -> {
                 switch (toUnit) {
-                    case "Tonne (T)" -> value = value / 1000000;
-                    case "Kilogram (KG)" -> value = value / 1000;
-                    case "Milligram (MG)" -> value = value * 1000;
-                    case "Pound (£)" -> value = value / 453.6;
+                    case "Month" -> value = value / 30.417;
+                    case "Week" -> value = value / 7;
+                    case "Hour" -> value = value * 24;
+                    case "Minute" -> value = value * 1440;
                 }
             }
-            case "Milligram (MG)" -> {
+            case "Hour" -> {
                 switch (toUnit) {
-                    case "Tonne (T)" -> value = value / 1000000000;
-                    case "Kilogram (KG)" -> value = value / 1000000;
-                    case "Gram (G)" -> value = value / 1000;
-                    case "Pound (£)" -> value = value / 453600;
+                    case "Month" -> value = value / 730;
+                    case "Week" -> value = value / 168;
+                    case "Day" -> value = value / 24;
+                    case "Minute" -> value = value * 60;
                 }
             }
-            case "Pound (£)" -> {
+            case "Minute" -> {
                 switch (toUnit) {
-                    case "Tonne (T)" -> value = value / 2205;
-                    case "Kilogram (KG)" -> value = value / 2.205;
-                    case "Gram (G)" -> value = value * 453.6;
-                    case "Milligram (MG)" -> value = value * 453600;
+                    case "Month" -> value = value / 43800;
+                    case "Week" -> value = value / 10080;
+                    case "Day" -> value = value / 1440;
+                    case "Hour" -> value = value / 60;
                 }
             }
             default -> {
@@ -151,6 +150,4 @@ public class MassConverter extends AbstractUnitConverter {
         }
         return value;
     }
-
 }
-

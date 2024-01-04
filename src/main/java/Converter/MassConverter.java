@@ -4,25 +4,24 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class VolumeConverter extends AbstractUnitConverter {
+public class MassConverter extends AbstractUnitConverter {
 
     private final ArrayList<String> unitList;
     private final ArrayList<String> conversionHistory;
 
-    public VolumeConverter() {
+    public MassConverter() {
         this.unitList = new ArrayList<>(Arrays.asList(
-                "Cubic meter (m3)",
-                "Liter (L)",
-                "Deciliter (dL)",
-                "Milliliter (mL)",
-                "Centiliter (cL)"));
+                "Tonne (T)",
+                "Kilogram (KG)",
+                "Gram (G)",
+                "Milligram (MG)",
+                "Pound (£)"));
         this.conversionHistory = new ArrayList<>();
     }
 
-    public ArrayList<String> getVolumeConversionHistory() {
+    public ArrayList<String> getMassConversionHistory() {
         return conversionHistory;
     }
 
@@ -40,7 +39,7 @@ public class VolumeConverter extends AbstractUnitConverter {
         Scanner userInput = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        System.out.println("- - - Welcome to Volume Converter - - -");
+        System.out.println("- - - Welcome to Mass Converter - - -");
         value = getValidDouble(userInput);
 
         do {
@@ -52,11 +51,11 @@ public class VolumeConverter extends AbstractUnitConverter {
 
             System.out.println("Select from which unit do you want to convert: ");
             System.out.print("fromUnit = ");
-            fromUnit = getValidOption(userInput, unitList);
+            fromUnit = getValidOption(userInput, this.unitList);
 
             System.out.println("Select to which unit do you want to convert: ");
             System.out.print("toUnit = ");
-            toUnit = getValidOption(userInput, unitList);
+            toUnit = getValidOption(userInput, this.unitList);
 
             System.out.println("----------------------RESULT----------------------");
             System.out.println(value + " " + unitList.get(fromUnit - 1) + " = " +
@@ -77,7 +76,7 @@ public class VolumeConverter extends AbstractUnitConverter {
                 System.out.printf("""
                         1. Change value
                         2. Watch history of the past conversions
-                        3. Close Volume Converter
+                        3. Close Mass Converter
                         4. Continue with the same value (value = %.1f)
                         Answer: \s""", value); // \s is white space char
 
@@ -86,9 +85,9 @@ public class VolumeConverter extends AbstractUnitConverter {
                     value = getValidDouble(userInput);
                     programOption = 4;
                 } else if (programOption == 2) {
-                    showHistory(conversionHistory, "Volume");
+                    showHistory(conversionHistory,"Mass");
                 } else if (programOption == 3) {
-                    System.out.println("Thanks for using Volume Converter!");
+                    System.out.println("Thanks for using Mass Converter!");
                     close = true;
                     programOption = 4;
                 }
@@ -105,44 +104,44 @@ public class VolumeConverter extends AbstractUnitConverter {
         }
 
         switch (fromUnit) {
-            case "Cubic meter (m3)" -> {
+            case "Tonne (T)" -> {
                 switch (toUnit) {
-                    case "Liter (L)" -> value = value * 1000;
-                    case "Deciliter (dL)" -> value = value * 10000;
-                    case "Milliliter (mL)" -> value = value * 1000000;
-                    case "Centiliter (cL)" -> value = value * 100000;
+                    case "Kilogram (KG)" -> value = value * 1000;
+                    case "Gram (G)" -> value = value * 1000000;
+                    case "Milligram (MG)" -> value = value * 1000000000;
+                    case "Pound (£)" -> value = value * 2205;
                 }
             }
-            case "Liter (L)" -> {
+            case "Kilogram (KG)" -> {
                 switch (toUnit) {
-                    case "Cubic meter (m3)" -> value = value / 1000;
-                    case "Deciliter (dL)" -> value = value * 10;
-                    case "Milliliter (mL)" -> value = value * 1000;
-                    case "Centiliter (cL)" -> value = value * 100;
+                    case "Tonne (T)" -> value = value / 1000;
+                    case "Gram (G)" -> value = value * 1000;
+                    case "Milligram (MG)" -> value = value * 1000000;
+                    case "Pound (£)" -> value = value * 2.205;
                 }
             }
-            case "Deciliter (dL)" -> {
+            case "Gram (G)" -> {
                 switch (toUnit) {
-                    case "Cubic meter (m3)" -> value = value / 10000;
-                    case "Liter (L)" -> value = value / 10;
-                    case "Milliliter (mL)" -> value = value * 100;
-                    case "Centiliter (cL)" -> value = value * 10;
+                    case "Tonne (T)" -> value = value / 1000000;
+                    case "Kilogram (KG)" -> value = value / 1000;
+                    case "Milligram (MG)" -> value = value * 1000;
+                    case "Pound (£)" -> value = value / 453.6;
                 }
             }
-            case "Milliliter (mL)" -> {
+            case "Milligram (MG)" -> {
                 switch (toUnit) {
-                    case "Cubic meter (m3)" -> value = value / 1000000;
-                    case "Liter (L)" -> value = value / 1000;
-                    case "Deciliter (dL)" -> value = value / 100;
-                    case "Centiliter (cL)" -> value = value / 10;
+                    case "Tonne (T)" -> value = value / 1000000000;
+                    case "Kilogram (KG)" -> value = value / 1000000;
+                    case "Gram (G)" -> value = value / 1000;
+                    case "Pound (£)" -> value = value / 453600;
                 }
             }
-            case "Centiliter (cL)" -> {
+            case "Pound (£)" -> {
                 switch (toUnit) {
-                    case "Cubic meter (m3)" -> value = value / 100000;
-                    case "Liter (L)" -> value = value / 100;
-                    case "Deciliter (dL))" -> value = value / 10;
-                    case "Milliliter (mL)" -> value = value * 10;
+                    case "Tonne (T)" -> value = value / 2205;
+                    case "Kilogram (KG)" -> value = value / 2.205;
+                    case "Gram (G)" -> value = value * 453.6;
+                    case "Milligram (MG)" -> value = value * 453600;
                 }
             }
             default -> {
@@ -151,4 +150,6 @@ public class VolumeConverter extends AbstractUnitConverter {
         }
         return value;
     }
+
 }
+

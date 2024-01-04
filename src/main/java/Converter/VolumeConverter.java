@@ -4,25 +4,24 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class LengthConverter extends AbstractUnitConverter {
+public class VolumeConverter extends AbstractUnitConverter {
 
     private final ArrayList<String> unitList;
     private final ArrayList<String> conversionHistory;
 
-    public LengthConverter() {
+    public VolumeConverter() {
         this.unitList = new ArrayList<>(Arrays.asList(
-                "Kilometer (KM)",
-                "Meter (M)",
-                "Decimeter (DM)",
-                "Centimeter (CM)",
-                "Millimeter (MM)"));
+                "Cubic meter (m3)",
+                "Liter (L)",
+                "Deciliter (dL)",
+                "Milliliter (mL)",
+                "Centiliter (cL)"));
         this.conversionHistory = new ArrayList<>();
     }
 
-    public ArrayList<String> getLengthConversionHistory() {
+    public ArrayList<String> getVolumeConversionHistory() {
         return conversionHistory;
     }
 
@@ -40,7 +39,7 @@ public class LengthConverter extends AbstractUnitConverter {
         Scanner userInput = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        System.out.println("- - - Welcome to Length Converter - - -");
+        System.out.println("- - - Welcome to Volume Converter - - -");
         value = getValidDouble(userInput);
 
         do {
@@ -77,7 +76,7 @@ public class LengthConverter extends AbstractUnitConverter {
                 System.out.printf("""
                         1. Change value
                         2. Watch history of the past conversions
-                        3. Close Length Converter
+                        3. Close Volume Converter
                         4. Continue with the same value (value = %.1f)
                         Answer: \s""", value); // \s is white space char
 
@@ -86,9 +85,9 @@ public class LengthConverter extends AbstractUnitConverter {
                     value = getValidDouble(userInput);
                     programOption = 4;
                 } else if (programOption == 2) {
-                    showHistory(conversionHistory,"Length");
+                    showHistory(conversionHistory, "Volume");
                 } else if (programOption == 3) {
-                    System.out.println("Thanks for using Length Converter!");
+                    System.out.println("Thanks for using Volume Converter!");
                     close = true;
                     programOption = 4;
                 }
@@ -105,44 +104,44 @@ public class LengthConverter extends AbstractUnitConverter {
         }
 
         switch (fromUnit) {
-            case "Kilometer (KM)" -> {
+            case "Cubic meter (m3)" -> {
                 switch (toUnit) {
-                    case "Meter (M)" -> value = value * 1000;
-                    case "Decimeter (DM)" -> value = value * 10000;
-                    case "Centimeter (CM)" -> value = value * 100000;
-                    case "Millimeter (MM)" -> value = value * 1000000;
+                    case "Liter (L)" -> value = value * 1000;
+                    case "Deciliter (dL)" -> value = value * 10000;
+                    case "Milliliter (mL)" -> value = value * 1000000;
+                    case "Centiliter (cL)" -> value = value * 100000;
                 }
             }
-            case "Meter (M)" -> {
+            case "Liter (L)" -> {
                 switch (toUnit) {
-                    case "Kilometer (KM)" -> value = value / 1000;
-                    case "Decimeter (DM)" -> value = value * 10;
-                    case "Centimeter (CM)" -> value = value * 100;
-                    case "Millimeter (MM)" -> value = value * 1000;
+                    case "Cubic meter (m3)" -> value = value / 1000;
+                    case "Deciliter (dL)" -> value = value * 10;
+                    case "Milliliter (mL)" -> value = value * 1000;
+                    case "Centiliter (cL)" -> value = value * 100;
                 }
             }
-            case "Decimeter (DM)" -> {
+            case "Deciliter (dL)" -> {
                 switch (toUnit) {
-                    case "Kilometer (KM)" -> value = value / 10000;
-                    case "Meter (M)" -> value = value / 10;
-                    case "Centimeter (CM)" -> value = value * 10;
-                    case "Millimeter (MM)" -> value = value * 100;
+                    case "Cubic meter (m3)" -> value = value / 10000;
+                    case "Liter (L)" -> value = value / 10;
+                    case "Milliliter (mL)" -> value = value * 100;
+                    case "Centiliter (cL)" -> value = value * 10;
                 }
             }
-            case "Centimeter (CM)" -> {
+            case "Milliliter (mL)" -> {
                 switch (toUnit) {
-                    case "Kilometer (KM)" -> value = value / 100000;
-                    case "Meter (M)" -> value = value / 100;
-                    case "Decimeter (DM)" -> value = value / 10;
-                    case "Millimeter (MM)" -> value = value * 10;
+                    case "Cubic meter (m3)" -> value = value / 1000000;
+                    case "Liter (L)" -> value = value / 1000;
+                    case "Deciliter (dL)" -> value = value / 100;
+                    case "Centiliter (cL)" -> value = value / 10;
                 }
             }
-            case "Millimeter (MM)" -> {
+            case "Centiliter (cL)" -> {
                 switch (toUnit) {
-                    case "Kilometer (KM)" -> value = value / 1000000;
-                    case "Meter (M)" -> value = value / 1000;
-                    case "Decimeter (DM)" -> value = value / 100;
-                    case "Centimeter (CM)" -> value = value / 10;
+                    case "Cubic meter (m3)" -> value = value / 100000;
+                    case "Liter (L)" -> value = value / 100;
+                    case "Deciliter (dL))" -> value = value / 10;
+                    case "Milliliter (mL)" -> value = value * 10;
                 }
             }
             default -> {
@@ -152,4 +151,3 @@ public class LengthConverter extends AbstractUnitConverter {
         return value;
     }
 }
-

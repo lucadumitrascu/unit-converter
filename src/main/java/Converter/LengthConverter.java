@@ -4,22 +4,24 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class TemperatureConverter extends AbstractUnitConverter {
+public class LengthConverter extends AbstractUnitConverter {
+
     private final ArrayList<String> unitList;
     private final ArrayList<String> conversionHistory;
 
-    public TemperatureConverter() {
+    public LengthConverter() {
         this.unitList = new ArrayList<>(Arrays.asList(
-                "Celsius",
-                "Fahrenheit",
-                "Kelvin"));
+                "Kilometer (KM)",
+                "Meter (M)",
+                "Decimeter (DM)",
+                "Centimeter (CM)",
+                "Millimeter (MM)"));
         this.conversionHistory = new ArrayList<>();
     }
 
-    public ArrayList<String> getTemperatureConversionHistory() {
+    public ArrayList<String> getLengthConversionHistory() {
         return conversionHistory;
     }
 
@@ -37,7 +39,7 @@ public class TemperatureConverter extends AbstractUnitConverter {
         Scanner userInput = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        System.out.println("- - - Welcome to Temperature Converter - - -");
+        System.out.println("- - - Welcome to Length Converter - - -");
         value = getValidDouble(userInput);
 
         do {
@@ -74,7 +76,7 @@ public class TemperatureConverter extends AbstractUnitConverter {
                 System.out.printf("""
                         1. Change value
                         2. Watch history of the past conversions
-                        3. Close Temperature Converter
+                        3. Close Length Converter
                         4. Continue with the same value (value = %.1f)
                         Answer: \s""", value); // \s is white space char
 
@@ -83,9 +85,9 @@ public class TemperatureConverter extends AbstractUnitConverter {
                     value = getValidDouble(userInput);
                     programOption = 4;
                 } else if (programOption == 2) {
-                    showHistory(conversionHistory, "Temperature");
+                    showHistory(conversionHistory,"Length");
                 } else if (programOption == 3) {
-                    System.out.println("Thanks for using Temperature Converter!");
+                    System.out.println("Thanks for using Length Converter!");
                     close = true;
                     programOption = 4;
                 }
@@ -102,22 +104,44 @@ public class TemperatureConverter extends AbstractUnitConverter {
         }
 
         switch (fromUnit) {
-            case "Celsius" -> {
+            case "Kilometer (KM)" -> {
                 switch (toUnit) {
-                    case "Fahrenheit" -> value = ((value * 9) / 5) + 32;
-                    case "Kelvin" -> value = value + 273.15;
+                    case "Meter (M)" -> value = value * 1000;
+                    case "Decimeter (DM)" -> value = value * 10000;
+                    case "Centimeter (CM)" -> value = value * 100000;
+                    case "Millimeter (MM)" -> value = value * 1000000;
                 }
             }
-            case "Fahrenheit" -> {
+            case "Meter (M)" -> {
                 switch (toUnit) {
-                    case "Celsius" -> value = (value - (32 * 5)) / 9;
-                    case "Kelvin" -> value = (value - (32 * 5)) / 9 + 273.15;
+                    case "Kilometer (KM)" -> value = value / 1000;
+                    case "Decimeter (DM)" -> value = value * 10;
+                    case "Centimeter (CM)" -> value = value * 100;
+                    case "Millimeter (MM)" -> value = value * 1000;
                 }
             }
-            case "Kelvin" -> {
+            case "Decimeter (DM)" -> {
                 switch (toUnit) {
-                    case "Celsius" -> value = value - 273.15;
-                    case "Fahrenheit" -> value = (value - 273.15 * 9) / 5 + 32;
+                    case "Kilometer (KM)" -> value = value / 10000;
+                    case "Meter (M)" -> value = value / 10;
+                    case "Centimeter (CM)" -> value = value * 10;
+                    case "Millimeter (MM)" -> value = value * 100;
+                }
+            }
+            case "Centimeter (CM)" -> {
+                switch (toUnit) {
+                    case "Kilometer (KM)" -> value = value / 100000;
+                    case "Meter (M)" -> value = value / 100;
+                    case "Decimeter (DM)" -> value = value / 10;
+                    case "Millimeter (MM)" -> value = value * 10;
+                }
+            }
+            case "Millimeter (MM)" -> {
+                switch (toUnit) {
+                    case "Kilometer (KM)" -> value = value / 1000000;
+                    case "Meter (M)" -> value = value / 1000;
+                    case "Decimeter (DM)" -> value = value / 100;
+                    case "Centimeter (CM)" -> value = value / 10;
                 }
             }
             default -> {
@@ -127,3 +151,4 @@ public class TemperatureConverter extends AbstractUnitConverter {
         return value;
     }
 }
+
