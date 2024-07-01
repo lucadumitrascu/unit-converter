@@ -1,5 +1,5 @@
 <div align="center">
-<h1>Unit Converter Program</h1>
+<h1>Unit Converter</h1>
 <h3>Java</h3>
 <img src="/images/photo.jpg" alt="Logo" title="Logo" width="225" height="225px">
 </div>
